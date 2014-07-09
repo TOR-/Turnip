@@ -1,0 +1,2 @@
+S: start
+C: gdt idt isrs irq
