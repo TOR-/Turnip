@@ -1,0 +1,4 @@
+menuentry "mBaros" {
+	multiboot /boot/kernel.bin
+}
+

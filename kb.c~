@@ -4,13 +4,14 @@
 *
 *  Notes: No warranty expressed or implied. Use at own risk. */
 #include <system.h>
-
+#include <stdbool.h>
 /* KBDUS means US Keyboard Layout. This is a scancode table
 *  used to layout a standard US keyboard. I have left some
 *  comments in to give you an idea of what key is what, even
 *  though I set it's array index to 0. You can change that to
 *  whatever you want using a macro, if you wish! */
 
+bool shiftPressed = false;
 unsigned char kbdus[128] =
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
@@ -125,7 +126,6 @@ unsigned char kbdie[256] =
 void keyboard_handler(struct regs *r)
 {
     unsigned char scancode;
-	char shiftPressed = 'f';
 	//char ctrlPressed = 'f';
 	//char altPressed = 'f';
 
@@ -141,7 +141,7 @@ void keyboard_handler(struct regs *r)
 	switch(scancode)
 	{
 		case 42:
-			shiftPressed = 'f';
+			shiftPressed = false;
 			break;
 		default:
 			break;
@@ -163,12 +163,14 @@ void keyboard_handler(struct regs *r)
         *  you would add 128 to the scancode when you look for it */
 	if(scancode == 42)
 	{
-		shiftPressed = 't'
-	}
-	if(shiftPressed == 't'){
+		shiftPressed = true;
 		putch(kbdie[scancode + 128]);
 	}
-        putch(kbdie[scancode]);
+	if(shiftPressed == true){
+		putch(kbdie[scancode + 128]);
+	}else{
+        	putch(kbdie[scancode]);
+	}
     }
 }
 

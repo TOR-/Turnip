@@ -7,7 +7,7 @@
 
 /* This will keep track of how many ticks that the system
 *  has been running for */
-int timer_ticks = 0;
+volatile unsigned int timer_ticks = 0;
 int seconds = 0;
 
 /* Handles the timer. In this case, it's very simple: We
@@ -19,8 +19,7 @@ void timer_handler(struct regs *r)
     /* Increment our 'tick count' */
     timer_ticks++;
 
-    /* Every 18 clocks (approximately 1 second), we will
-    *  display a message on the screen */
+    /* Every 18 clocks (approximately 1 second), another second has passed */
     if (timer_ticks % 18 == 0)
     {
         seconds++;
@@ -31,12 +30,15 @@ void timer_handler(struct regs *r)
 *  been reached */
 void timer_wait(int ticks)
 {
-    unsigned long eticks;
-
+    unsigned int eticks;
+ 
     eticks = timer_ticks + ticks;
-    while(timer_ticks < eticks);
+    while(timer_ticks < eticks) 
+    {
+	// turns off the processor?
+        __asm__ __volatile__ ("sti//hlt//cli");
+    }
 }
-
 void timer_phase(int hz)
 {
     int divisor = 1193180 / hz;       /* Calculate our divisor */
