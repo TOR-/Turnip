@@ -51,7 +51,7 @@ unsigned char kbdus[128] =
     0,	/* F12 Key */
     0,	/* All other keys are undefined */
 };
-unsigned char kbdie[256] = 
+unsigned char kbdie[128] = 
 {
 0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
   '9', '0', '-', '=', '\b',	/* Backspace */
@@ -61,7 +61,7 @@ unsigned char kbdie[256] =
     0,			/* 29   - Control */
   'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',	/* 39 */
  '\'', '`',   0,		/* Left shift */
- '\\', 'z', 'x', 'c', 'v', 'b', 'n',			/* 49 */
+ '#', 'z', 'x', 'c', 'v', 'b', 'n',			/* 49 */
   'm', ',', '.', '/',   0,					/* Right shift */
   '*',
     0,	/* Alt */
@@ -88,7 +88,11 @@ unsigned char kbdie[256] =
     0,   0,   0,
     0,	/* F11 Key */
     0,	/* F12 Key */
-    0,	/* Shift Beyond Here */
+    0,	/* All others undefined */
+};
+
+unsigned char kbdie_shift[128] = 
+{
 0,  27, '!', '"', '£', '$', '%', '^', '&', '*',	/* 9 */
   '(', ')', '_', '+', '\b',	/* Backspace */
   '\t', /* Tab */ 'Q', 'W', 'E', 'R', /* 19 */ 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '\n', /* Enter key */
@@ -126,9 +130,6 @@ unsigned char kbdie[256] =
 void keyboard_handler(struct regs *r)
 {
     unsigned char scancode;
-	//char ctrlPressed = 'f';
-	//char altPressed = 'f';
-
     /* Read from the keyboard's data buffer */
     scancode = inportb(0x60);
 
@@ -138,13 +139,9 @@ void keyboard_handler(struct regs *r)
     {
         /* You can use this one to see if the user released the
         *  shift, alt, or control keys... */
-	switch(scancode)
+	if (scancode == 42)
 	{
-		case 42:
-			shiftPressed = false;
-			break;
-		default:
-			break;
+		shiftPressed = false;
 	}
     }
     else
@@ -164,11 +161,16 @@ void keyboard_handler(struct regs *r)
 	if(scancode == 42)
 	{
 		shiftPressed = true;
-		putch(kbdie[scancode + 128]);
 	}
-	if(shiftPressed == true){
-		putch(kbdie[scancode + 128]);
-	}else{
+	
+	if(shiftPressed == true)
+	{
+		putch(kbdie_shift[scancode]);
+		putch(scancode);
+		shiftPressed = false;
+	}
+	else
+	{
         	putch(kbdie[scancode]);
 	}
     }
