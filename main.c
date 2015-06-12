@@ -48,8 +48,6 @@ void outportb (unsigned short _port, unsigned char _data)
 
 void main()
 {
-    int i;
-
     gdt_install();
     idt_install();
     isrs_install();
@@ -58,10 +56,10 @@ void main()
     timer_install();
     keyboard_install();
 
-    __asm__ __volatile__ ("sti");
+    __asm__ __volatile__ ("sti"); // What's this for?
 
-    puts("Hello World!\n");
-
+    puts("Turnip\n");
+    
 //    i = 10 / 0;
 //    putch(i);
 

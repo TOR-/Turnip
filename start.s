@@ -45,6 +45,14 @@ stublet:
     call main
     jmp $
 
+; sets vga mode to video something by something
+; (probably needs clarification)
+; TODO
+global init_vga_vid
+init_vga_vid:
+	mov ax,		0x1F23
+	int 10h
+	
 ; This will set up our new segment registers. We need to do
 ; something special in order to set CS. We do what is called a
 ; far jump. A jump that includes a segment as well as an offset.
@@ -325,7 +333,7 @@ isr31:
 
 
 ; We call a C function in here. We need to let the assembler know
-; that '_fault_handler' exists in another file
+; that 'fault_handler' exists in another file
 extern fault_handler
 
 ; This is our common ISR stub. It saves the processor state, sets
@@ -520,4 +528,3 @@ irq_common_stub:
 SECTION .bss
     resb 8192               ; This reserves 8KBytes of memory here
 sys_stack:
-

@@ -31,6 +31,9 @@ extern void puts(unsigned char *text);
 extern void putch(unsigned char c);
 extern void cls();
 
+// start.s
+extern void init_vga_vid();
+
 /* GDT.C */
 extern void gdt_set_gate(int num, unsigned long base, unsigned long limit, unsigned char access, unsigned char gran);
 extern void gdt_install();

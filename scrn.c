@@ -11,6 +11,7 @@ unsigned short *textmemptr;
 int attrib = 0x0F;
 int csr_x = 0, csr_y = 0;
 
+
 /* Scrolls the screen */
 void scroll(void)
 {
@@ -147,6 +148,11 @@ void puts(unsigned char *text)
     }
 }
 
+void putint(int i)
+{
+	if (!(i<49 && i>59))
+		putch(i+49);
+}
 /* Sets the forecolor and backcolor that we will use */
 void settextcolor(unsigned char forecolor, unsigned char backcolor)
 {
@@ -160,4 +166,5 @@ void init_video(void)
 {
     textmemptr = (unsigned short *)0xB8000;
     cls();
+    //init_vga_vid();
 }

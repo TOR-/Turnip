@@ -13,13 +13,14 @@ OS=Baros
 EMULATOR=qemu-system-i386
 ISO=isodir
 ASM=nasm
-SRC=~/Projects/Operating_Systems/Branos
+SRC=~/projects/Operating_Systems/Branos
 
-all: cc asm link run
+all: cc asm link
 	cd $(SRC)
 
 clean:
 	rm -rf *o hello
+
 cc:
 	$(CC) -c *c $(CFLAGS)
 
@@ -31,5 +32,6 @@ link: cc asm
 	cp $(OS).bin $(ISO)/boot/$(OS).bin
 	grub-mkrescue -o $(OS).iso $(ISO)
 	cp $(OS).iso bin
+	
 run:	
 	$(EMULATOR) -cdrom ./bin/$(OS).iso
