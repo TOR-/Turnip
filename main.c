@@ -59,7 +59,14 @@ void main()
     __asm__ __volatile__ ("sti"); // What's this for?
 
     puts("Turnip\n");
+    puts("Writing memory\n");
+    puts("memsetw(0x20000,0xDE,1);\n");
+    memsetw(0x20000,0xDE,1);
+    puts("memsetw(0x20004,0xAD,1);\n");
+    memsetw(0x20004,0xAD,1);
+    puts("Reading memory\n");
     
+    puts("mempeek yet to be implemented");
 //    i = 10 / 0;
 //    putch(i);
 

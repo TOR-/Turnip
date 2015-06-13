@@ -34,4 +34,4 @@ link: cc asm
 	cp $(OS).iso bin
 	
 run:	
-	$(EMULATOR) -cdrom ./bin/$(OS).iso
+	$(EMULATOR) -monitor stdio -cdrom ./bin/$(OS).iso

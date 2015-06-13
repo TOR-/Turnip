@@ -52,14 +52,19 @@ void main()
     idt_install();
     isrs_install();
     irq_install();
-    init_video(); //*
+    init_video();
     timer_install();
     keyboard_install();
 
     __asm__ __volatile__ ("sti"); // What's this for?
 
     puts("Turnip\n");
+    puts("Writing memory\n");
+    puts("memset(0x20000,0xDEADBABA0000,2);\n");
+    memset(0x20000,0xDEADBABA0000,2);
+    puts("Reading memory\n");
     
+    puts("mempeek yet to be implemented");
 //    i = 10 / 0;
 //    putch(i);
 
